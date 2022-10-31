@@ -1,0 +1,1 @@
+python did't affected by newline
