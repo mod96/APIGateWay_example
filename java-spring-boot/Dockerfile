@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-jammy AS base
+FROM 11-jdk-slim-bullseye AS base
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ CMD ["./mvnw", "spring-boot:run"]
 FROM base AS build
 RUN ./mvnw package
 
-FROM eclipse-temurin:17-jre-jammy as production
+FROM 11-jre-slim-bullseye as production
 EXPOSE 8080
 COPY --from=build /app/target/demo-*.jar /production.jar
 CMD ["java", "-jar", "/production.jar"]
