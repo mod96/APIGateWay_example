@@ -1,16 +1,15 @@
-# get baseimage
-FROM gcc:12
+FROM gcc:12-bullseye AS base
 
-EXPOSE 8080
-
-# copy files from local folder to destination
 COPY . /usr/src
-
-# define working directory in container
 WORKDIR /usr/src
 
 # compile main.cpp (-I/usr/src/asio/ link path starting from root)
-RUN g++ -I/usr/src/asio/ main.cpp -lpthread -o app
+RUN g++ -I/usr/src/asio/ *.cpp -lpthread -o app
 
-# run executable
-CMD [ "./app" ]
+FROM base AS development
+CMD [ "bash", "-c", "./app" ]
+
+FROM debian:bullseye-slim AS production
+EXPOSE 8080
+COPY --from=base /usr/src/ /usr/src
+CMD [ "bash", "-c", "./app" ]
