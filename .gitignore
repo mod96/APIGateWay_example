@@ -23,3 +23,5 @@
 hs_err_pid*
 
 cpp-crow-installation/*
+
+.vscode/
